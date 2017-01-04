@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/RltMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/ildTitle"
+        layout="@layout/sketch_book_pro_title" />
+
+    <com.rm.freedraw.FreeDrawView
+        android:id="@+id/mFreeDrawView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:paintAlpha="255"
+        app:paintColor="@color/colorAccent"
+        app:paintWidth="4dp"
+        app:resizeBehaviour="crop" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/ui_margin"
+        app:srcCompat="@drawable/cool" />
+</RelativeLayout>

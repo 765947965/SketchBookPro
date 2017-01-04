@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="white">#ffffff</color>
+
     <color name="translate">#00000000</color>
     <color name="colorPrimary">#605e5e</color>
     <color name="colorPrimaryDark">#605e5e</color>
@@ -7,14 +9,7 @@
     <color name="colorControlActivated">#605e5e</color>
     <color name="colorControlHighlight">#605e5e</color>
     <color name="colorButtonNormal">#605e5e</color>
-    <color name="colorAccent">#ffff</color>
-    <color name="FloatingColorPrimary">#ffae00</color>
-    <color name="FloatingColorPrimaryDark">#ffae00</color>
-    <color name="FloatingColorColNormal">#ffae00</color>
-    <color name="FloatingColorControlActivated">#ffae00</color>
-    <color name="FloatingColorControlHighlight">#ffae00</color>
-    <color name="FloatingColorButtonNormal">#ffae00</color>
-    <color name="FloatingColorAccent">#ffae00</color>
+    <color name="colorAccent">#ffae00</color>
 
     <color name="text_tips">#9999</color>
     <color name="text_context">#666666</color>

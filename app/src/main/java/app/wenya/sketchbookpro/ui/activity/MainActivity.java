@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,9 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.wenya.sketchbookpro.R;
-import app.wenya.sketchbookpro.data.Instance.MyOnPageChangeListener;
-import app.wenya.sketchbookpro.data.util.ImageLoadUtil;
-import app.wenya.sketchbookpro.data.util.ImageStorageUtil;
+import app.wenya.sketchbookpro.base.Constant;
+import app.wenya.sketchbookpro.utils.Instance.MyOnPageChangeListener;
+import app.wenya.sketchbookpro.utils.util.ImageLoadUtil;
+import app.wenya.sketchbookpro.utils.util.ImageStorageUtil;
 import app.wenya.sketchbookpro.model.DrawingImage;
 import app.wenya.sketchbookpro.ui.base.BaseActivity;
 import app.wenya.sketchbookpro.ui.base.LoopBaseAdapter;
@@ -45,6 +47,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mIconPageIndicator = mViewHolder.getView(R.id.mIconPageIndicator);
         mViewPager.addOnPageChangeListener(new PagerChangeListener());
         mViewHolder.setOnClickListener(R.id.tvTitle);
+        mViewHolder.setOnClickListener(R.id.fab);
     }
 
     @Override
@@ -52,6 +55,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.tvTitle:
                 mDrawerLayout.openDrawer(Gravity.RIGHT);
+                break;
+            case R.id.fab:
+                startActivity(new Intent(MainActivity.this, SketchBookProActivity.class));
                 break;
         }
     }
@@ -64,7 +70,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             mViewPager.setAdapter(new LoopBaseAdapter<DrawingImage>(this, mDrawingImages, R.layout.activity_adapter_item) {
                 @Override
                 public void createView(ViewHolder mViewHolder, DrawingImage item, List<DrawingImage> mDatas, int position) {
-                    if (position == 0) {
+                    if (TextUtils.isEmpty(item.getPath())) {
                         mViewHolder.setVisibility(R.id.mSketchImageView, View.GONE);
                     } else {
                         mViewHolder.setVisibility(R.id.mSketchImageView, View.VISIBLE);
@@ -74,8 +80,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                 @Override
                 public void onClickItem(View view, DrawingImage item, List<DrawingImage> mDatas, int position) {
-                    if (position == 0) {
+                    if (TextUtils.isEmpty(item.getPath())) {
                         startActivity(new Intent(MainActivity.this, SketchBookProActivity.class));
+                    } else {
+                        startActivity(new Intent(MainActivity.this, SketchBookProActivity.class).putExtra(Constant.ARG1, item));
                     }
                 }
             });
@@ -84,7 +92,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         mDrawingImages.clear();
         mDrawingImages.addAll(ImageStorageUtil.instance().getAllDrawingImage(this));
-        mDrawingImages.add(0, new DrawingImage());
+        if (mDrawingImages.size() == 0) mDrawingImages.add(0, new DrawingImage());
         mViewPager.getAdapter().notifyDataSetChanged();
         mIconPageIndicator.notifyDataSetChanged();
     }

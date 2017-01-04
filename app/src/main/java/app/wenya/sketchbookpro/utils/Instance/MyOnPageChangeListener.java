@@ -1,4 +1,4 @@
-package app.wenya.sketchbookpro.data.Instance;
+package app.wenya.sketchbookpro.utils.Instance;
 
 import android.support.v4.view.ViewPager;
 

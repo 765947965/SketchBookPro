@@ -1,11 +1,11 @@
-package app.wenya.sketchbookpro.data.util;
+package app.wenya.sketchbookpro.utils.util;
 
 import android.app.Activity;
 import android.net.Uri;
 import android.widget.ImageView;
 
-import app.wenya.sketchbookpro.data.Instance.ImageLoadInstance;
-import app.wenya.sketchbookpro.data.Interface.ImageLoadInterface;
+import app.wenya.sketchbookpro.utils.Instance.ImageLoadInstance;
+import app.wenya.sketchbookpro.utils.Interface.ImageLoadInterface;
 
 /**
  * @author: xiewenliang

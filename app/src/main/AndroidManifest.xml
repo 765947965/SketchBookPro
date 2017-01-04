@@ -5,12 +5,12 @@
 
     <application
         android:name=".base.MyApplication"
-        tools:replace="android:allowBackup"
         android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/iic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
         <activity
             android:name=".ui.activity.MainActivity"
             android:screenOrientation="portrait">

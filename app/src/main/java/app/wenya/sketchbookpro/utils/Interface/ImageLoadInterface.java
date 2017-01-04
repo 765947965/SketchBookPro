@@ -1,4 +1,4 @@
-package app.wenya.sketchbookpro.data.Interface;
+package app.wenya.sketchbookpro.utils.Interface;
 
 import android.app.Activity;
 import android.net.Uri;

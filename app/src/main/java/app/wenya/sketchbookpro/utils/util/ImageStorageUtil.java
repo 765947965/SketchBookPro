@@ -1,12 +1,12 @@
-package app.wenya.sketchbookpro.data.util;
+package app.wenya.sketchbookpro.utils.util;
 
 
 import android.app.Activity;
 
 import java.util.List;
 
-import app.wenya.sketchbookpro.data.Instance.ImagesStorageInstance;
-import app.wenya.sketchbookpro.data.Interface.ImagesStorageInterface;
+import app.wenya.sketchbookpro.utils.Instance.ImagesStorageInstance;
+import app.wenya.sketchbookpro.utils.Interface.ImagesStorageInterface;
 import app.wenya.sketchbookpro.model.DrawingImage;
 
 /**
