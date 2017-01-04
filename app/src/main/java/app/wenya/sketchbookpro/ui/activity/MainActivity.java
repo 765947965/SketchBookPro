@@ -1,5 +1,6 @@
 package app.wenya.sketchbookpro.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -58,6 +59,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     } else {
                         mViewHolder.setVisibility(R.id.mSketchImageView, View.VISIBLE);
                         ImageLoadUtil.instance().loadImageAutoSize(MainActivity.this, item.getPath(), (ImageView) mViewHolder.getView(R.id.mSketchImageView));
+                    }
+                }
+
+                @Override
+                public void onClickItem(View view, DrawingImage item, List<DrawingImage> mDatas, int position) {
+                    if (position == 0) {
+                        startActivity(new Intent(MainActivity.this, SketchBookProActivity.class));
                     }
                 }
             });

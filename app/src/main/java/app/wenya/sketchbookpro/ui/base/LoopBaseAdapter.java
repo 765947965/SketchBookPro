@@ -13,7 +13,7 @@ import java.util.List;
 import app.wenya.sketchbookpro.R;
 import app.wenya.sketchbookpro.ui.view.looppager.IconPagerAdapter;
 
-public abstract class LoopBaseAdapter<T> extends PagerAdapter implements IconPagerAdapter {
+public abstract class LoopBaseAdapter<T> extends PagerAdapter implements IconPagerAdapter, View.OnClickListener {
     private LayoutInflater mInflater;
     private List<T> mDatas;
     private Activity mActivity;
@@ -47,7 +47,15 @@ public abstract class LoopBaseAdapter<T> extends PagerAdapter implements IconPag
         View view = mInflater.inflate(mItemLayoutId, container, false);
         createView(new ViewHolder(mActivity, view), getItem(position), mDatas, position);
         container.addView(view, 0);
+        view.setTag(position);
+        view.setOnClickListener(this);
         return view;
+    }
+
+    @Override
+    public void onClick(View view) {
+        int position = (int) view.getTag();
+        onClickItem(view, getItem(position), mDatas, position);
     }
 
     public T getItem(int position) {
@@ -81,4 +89,5 @@ public abstract class LoopBaseAdapter<T> extends PagerAdapter implements IconPag
 
     public abstract void createView(ViewHolder mViewHolder, T item, List<T> mDatas, int position);
 
+    public abstract void onClickItem(View view, T item, List<T> mDatas, int position);
 }
