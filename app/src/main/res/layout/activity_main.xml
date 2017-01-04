@@ -1,37 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/RltMain"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:layerType="software">
+    <include layout="@layout/activity_main_context" />
 
-        <app.wenya.sketchbookpro.ui.view.looppager.LoopViewPager
-            android:id="@+id/mViewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="30dp" />
+    <include layout="@layout/activity_main_broadside" />
 
-        <app.wenya.sketchbookpro.ui.view.looppager.IconPageIndicator
-            android:id="@+id/mIconPageIndicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            android:layout_marginBottom="6dp"
-            android:layout_marginRight="14dp" />
-    </FrameLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="45dp"
-        android:background="@color/translate"
-        app:borderWidth="0dp" />
-</RelativeLayout>
+</android.support.v4.widget.DrawerLayout>
