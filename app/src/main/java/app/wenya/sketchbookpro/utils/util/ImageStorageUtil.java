@@ -5,8 +5,8 @@ import android.app.Activity;
 
 import java.util.List;
 
-import app.wenya.sketchbookpro.utils.Instance.ImagesStorageInstance;
-import app.wenya.sketchbookpro.utils.Interface.ImagesStorageInterface;
+import app.wenya.sketchbookpro.utils.Instance.ImagesStorageImper;
+import app.wenya.sketchbookpro.utils.Interface.ImagesStorage;
 import app.wenya.sketchbookpro.model.DrawingImage;
 
 /**
@@ -19,10 +19,10 @@ import app.wenya.sketchbookpro.model.DrawingImage;
 
 public class ImageStorageUtil {
     private static ImageStorageUtil mImagesStorageUtil;
-    private ImagesStorageInterface mImagesStorageInterface;
+    private ImagesStorage mImagesStorageInterface;
 
     private ImageStorageUtil() {
-        mImagesStorageInterface = new ImagesStorageInstance();
+        mImagesStorageInterface = new ImagesStorageImper();
     }
 
     public static ImageStorageUtil instance() {
@@ -36,11 +36,11 @@ public class ImageStorageUtil {
         return mImagesStorageUtil;
     }
 
-    public List<DrawingImage> getAllDrawingImage(Activity mActivity) {
-        return mImagesStorageInterface.getAllDrawingImage(mActivity);
+    public List<DrawingImage> getAllDrawingImage(Activity mActivity, String fileName) {
+        return mImagesStorageInterface.getAllDrawingImage(mActivity, fileName);
     }
 
-    public void setAllDrawingImage(Activity mActivity, List<DrawingImage> mDrawingImages) {
-        mImagesStorageInterface.setAllDrawingImage(mActivity, mDrawingImages);
+    public void setAllDrawingImage(Activity mActivity, List<DrawingImage> mDrawingImages, String fileName) {
+        mImagesStorageInterface.setAllDrawingImage(mActivity, mDrawingImages, fileName);
     }
 }

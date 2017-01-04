@@ -1,6 +1,11 @@
 package app.wenya.sketchbookpro.model;
 
+
+import org.joda.time.DateTime;
+
 import java.io.Serializable;
+
+import app.wenya.sketchbookpro.base.Constant;
 
 /**
  * @author: xiewenliang
@@ -12,8 +17,17 @@ import java.io.Serializable;
 
 public class DrawingImage implements Serializable {
     private String name;
-    private String path;
+    private String folder;
     private String date;
+    public DrawingImage(){
+
+    }
+
+    public DrawingImage(String folder, String name) {
+        this.folder = folder;
+        this.name = name;
+        this.date = new DateTime().toString(Constant.pattern);
+    }
 
     public String getDate() {
         return date;
@@ -31,11 +45,11 @@ public class DrawingImage implements Serializable {
         this.name = name;
     }
 
-    public String getPath() {
-        return path;
+    public String getFolder() {
+        return folder;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setFolder(String folder) {
+        this.folder = folder;
     }
 }

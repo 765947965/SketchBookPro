@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.widget.ImageView;
 
-import app.wenya.sketchbookpro.utils.Interface.ImageLoadInterface;
+import app.wenya.sketchbookpro.utils.Interface.ImageLoad;
 
 /**
  * @author: xiewenliang
@@ -14,7 +14,7 @@ import app.wenya.sketchbookpro.utils.Interface.ImageLoadInterface;
  * @date: 2017/1/3 17:30
  */
 
-public class ImageLoadInstance implements ImageLoadInterface {
+public class ImageLoadImper implements ImageLoad {
     @Override
     public void loadImageAutoSize(Activity mActivity, String path, ImageView mImageView) {
 

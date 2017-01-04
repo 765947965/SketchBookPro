@@ -2,6 +2,7 @@ package app.wenya.sketchbookpro.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +59,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 mDrawerLayout.openDrawer(Gravity.RIGHT);
                 break;
             case R.id.fab:
-                startActivity(new Intent(MainActivity.this, SketchBookProActivity.class));
+                startActivityForResult(new Intent(MainActivity.this, SketchBookProActivity.class).putExtra(Constant.ARG1, new DrawingImage(Environment.getDataDirectory().getPath() + "默认/", String.valueOf(System.currentTimeMillis()))), Constant.SKETCHBOOKPRO);
                 break;
         }
     }
@@ -70,31 +72,54 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             mViewPager.setAdapter(new LoopBaseAdapter<DrawingImage>(this, mDrawingImages, R.layout.activity_adapter_item) {
                 @Override
                 public void createView(ViewHolder mViewHolder, DrawingImage item, List<DrawingImage> mDatas, int position) {
-                    if (TextUtils.isEmpty(item.getPath())) {
+                    if (!new File(item.getFolder() + item.getName()).exists()) {
                         mViewHolder.setVisibility(R.id.mSketchImageView, View.GONE);
                     } else {
                         mViewHolder.setVisibility(R.id.mSketchImageView, View.VISIBLE);
-                        ImageLoadUtil.instance().loadImageAutoSize(MainActivity.this, item.getPath(), (ImageView) mViewHolder.getView(R.id.mSketchImageView));
+                        ImageLoadUtil.instance().loadImageAutoSize(MainActivity.this, item.getFolder() + item.getName(), (ImageView) mViewHolder.getView(R.id.mSketchImageView));
                     }
                 }
 
                 @Override
                 public void onClickItem(View view, DrawingImage item, List<DrawingImage> mDatas, int position) {
-                    if (TextUtils.isEmpty(item.getPath())) {
-                        startActivity(new Intent(MainActivity.this, SketchBookProActivity.class));
-                    } else {
-                        startActivity(new Intent(MainActivity.this, SketchBookProActivity.class).putExtra(Constant.ARG1, item));
-                    }
+                    startActivityForResult(new Intent(MainActivity.this, SketchBookProActivity.class).putExtra(Constant.ARG1, item), Constant.SKETCHBOOKPRO);
                 }
             });
             mIconPageIndicator.setPadding(10, 0, 10, 0);
             mIconPageIndicator.setViewPager(mViewPager);
         }
         mDrawingImages.clear();
-        mDrawingImages.addAll(ImageStorageUtil.instance().getAllDrawingImage(this));
-        if (mDrawingImages.size() == 0) mDrawingImages.add(0, new DrawingImage());
+        mDrawingImages.addAll(ImageStorageUtil.instance().getAllDrawingImage(this, "默认/"));
+        if (mDrawingImages.size() == 0) {
+            mDrawingImages.add(0, new DrawingImage(Environment.getDataDirectory().getPath() + "默认/", String.valueOf(System.currentTimeMillis())));
+        }
         mViewPager.getAdapter().notifyDataSetChanged();
         mIconPageIndicator.notifyDataSetChanged();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == Constant.SKETCHBOOKPRO) {
+            if (data.getSerializableExtra(Constant.ARG1) != null) {
+                DrawingImage newItem = (DrawingImage) data.getSerializableExtra(Constant.ARG1);
+                boolean isHas = false;
+                for (DrawingImage Item : mDrawingImages) {
+                    if (Item.getName().equals(newItem.getName())) {
+                        isHas = true;
+                    }
+                    break;
+                }
+                if (isHas) {
+                    mDrawingImages.add(newItem);
+                    ImageStorageUtil.instance().setAllDrawingImage(this, mDrawingImages, "默认/");
+                }
+            }
+            mViewPager.getAdapter().notifyDataSetChanged();
+            mIconPageIndicator.notifyDataSetChanged();
+
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     class PagerChangeListener extends MyOnPageChangeListener {

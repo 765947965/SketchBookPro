@@ -12,7 +12,7 @@ import android.widget.ImageView;
  * @date: 2017/1/3 17:24
  */
 
-public interface ImageLoadInterface {
+public interface ImageLoad {
     void loadImageAutoSize(Activity mActivity, String path, ImageView mImageView);
 
     void loadImageAutoSize(Activity mActivity, Uri uri, ImageView mImageView);

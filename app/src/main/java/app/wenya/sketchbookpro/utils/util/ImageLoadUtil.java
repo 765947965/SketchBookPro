@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.net.Uri;
 import android.widget.ImageView;
 
-import app.wenya.sketchbookpro.utils.Instance.ImageLoadInstance;
-import app.wenya.sketchbookpro.utils.Interface.ImageLoadInterface;
+import app.wenya.sketchbookpro.utils.Instance.ImageLoadImper;
+import app.wenya.sketchbookpro.utils.Interface.ImageLoad;
 
 /**
  * @author: xiewenliang
@@ -17,10 +17,10 @@ import app.wenya.sketchbookpro.utils.Interface.ImageLoadInterface;
 
 public class ImageLoadUtil {
     private static ImageLoadUtil mImageLoadUtil;
-    private ImageLoadInterface mImageLoadInterface;
+    private ImageLoad mImageLoadInterface;
 
     private ImageLoadUtil() {
-        mImageLoadInterface = new ImageLoadInstance();
+        mImageLoadInterface = new ImageLoadImper();
     }
 
 

@@ -1,22 +1,22 @@
 package app.wenya.sketchbookpro.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.View;
 
-import com.rm.freedraw.FreeDrawView;
-import com.rm.freedraw.HistoryPath;
-import com.rm.freedraw.Point;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
+import com.rm.freedraw.FreeDrawView;
 
 import app.wenya.sketchbookpro.R;
 import app.wenya.sketchbookpro.base.Constant;
 import app.wenya.sketchbookpro.model.DrawingImage;
 import app.wenya.sketchbookpro.ui.base.BaseActivity;
 import app.wenya.sketchbookpro.ui.base.ViewHolder;
+import app.wenya.sketchbookpro.utils.util.BitMapStoreUtil;
+
 
 /**
  * @author: xiewenliang
@@ -31,6 +31,7 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
     private FreeDrawView mFreeDrawView;
     private DrawingImage mDrawingImage;
     private Bitmap draw;
+    private Intent intent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,16 +46,27 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
         mFreeDrawView.getDrawScreenshot(this);
     }
 
+
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        draw = null;
-        saveDraw();
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            save();
+            finish();
+            return true;
+        }
+        return false;
+    }
+
+    public void save() {
+//        saveBitMap();
+        intent.putExtra(Constant.ARG1, mDrawingImage);
+        setResult(RESULT_OK, intent);
     }
 
     @Override
     protected void loadData() {
-        mDrawingImage = (DrawingImage) getIntent().getSerializableExtra(Constant.ARG1);
+        intent = getIntent();
+        mDrawingImage = (DrawingImage) intent.getSerializableExtra(Constant.ARG1);
     }
 
     @Override
@@ -72,21 +84,9 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
 
     }
 
-    private void saveDraw() {
-        try {
-            Field mPointsField = FreeDrawView.class.getDeclaredField("mPoints");
-            Field mPathsField = FreeDrawView.class.getDeclaredField("mPaths");
-            Field mCanceledPathsField = FreeDrawView.class.getDeclaredField("mCanceledPaths");
-            mPointsField.setAccessible(true);
-            mPathsField.setAccessible(true);
-            mCanceledPathsField.setAccessible(true);
-            Class<?> mPointClass = Class.forName("com.rm.freedraw.Point");
-            Class<?> mHistoryPathClass = Class.forName("com.rm.freedraw.HistoryPath");
-            ArrayList<mPointClass> mPoints = mPointsField.get(mDrawingImage);
-            ArrayList<mHistoryPathClass> mPaths = mPathsField.get(mDrawingImage);
-            ArrayList<mHistoryPathClass> mCanceledPaths = mCanceledPathsField.get(mDrawingImage);
-
-        } catch (Exception e) {
-        }
+    private void saveBitMap() {
+        BitMapStoreUtil.instance().saveBitMap(this, draw, mDrawingImage.getFolder() + mDrawingImage.getName());
+        draw.recycle();
+        draw = null;
     }
 }

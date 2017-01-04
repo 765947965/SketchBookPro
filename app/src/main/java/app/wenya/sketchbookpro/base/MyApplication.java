@@ -3,6 +3,8 @@ package app.wenya.sketchbookpro.base;
 import android.app.Application;
 import android.content.Context;
 
+import org.joda.time.DateTimeZone;
+
 /**
  * @author: xiewenliang
  * @Filename:
@@ -19,6 +21,8 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         myApplication = this;
+        //默认设置为北京时间
+        DateTimeZone.setDefault(DateTimeZone.forOffsetHours(8));
     }
 
     public static Context getContext() {

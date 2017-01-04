@@ -14,9 +14,9 @@ import app.wenya.sketchbookpro.model.DrawingImage;
  * @date: 2017/1/3 16:51
  */
 
-public interface ImagesStorageInterface {
+public interface ImagesStorage {
 
-    List<DrawingImage> getAllDrawingImage(Activity mActivity);
+    List<DrawingImage> getAllDrawingImage(Activity mActivity, String fileName);
 
-    void setAllDrawingImage(Activity mActivity, List<DrawingImage> mDrawingImages);
+    void setAllDrawingImage(Activity mActivity, List<DrawingImage> mDrawingImages, String fileName);
 }
