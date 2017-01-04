@@ -49,6 +49,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void loadData() {
         if (mDrawingImages == null) {
             mDrawingImages = new ArrayList<>();
+            mDrawingImages.add(0, new DrawingImage());
             mViewPager.setAdapter(new LoopBaseAdapter<DrawingImage>(this, mDrawingImages, R.layout.activity_adapter_item) {
                 @Override
                 public void createView(ViewHolder mViewHolder, DrawingImage item, List<DrawingImage> mDatas, int position) {

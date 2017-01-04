@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RltMain"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/RltMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="false"
@@ -21,11 +21,10 @@
             android:id="@+id/mIconPageIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_gravity="right|bottom"
             android:layout_marginBottom="6dp"
             android:layout_marginRight="14dp" />
-    </RelativeLayout>
+    </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"

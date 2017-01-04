@@ -2,6 +2,7 @@ package app.wenya.sketchbookpro.data.Instance;
 
 import android.app.Activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import app.wenya.sketchbookpro.data.Interface.ImagesStorageInterface;
@@ -18,7 +19,7 @@ import app.wenya.sketchbookpro.model.DrawingImage;
 public class ImagesStorageInstance implements ImagesStorageInterface {
     @Override
     public List<DrawingImage> getAllDrawingImage(Activity mActivity) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
