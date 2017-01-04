@@ -3,8 +3,11 @@ package app.wenya.sketchbookpro.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,8 @@ import app.wenya.sketchbookpro.ui.view.looppager.IconPageIndicator;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ViewHolder mViewHolder;
+    private DrawerLayout mDrawerLayout;
+    private LinearLayout mBroadside;
     private ViewPager mViewPager;
     private IconPageIndicator mIconPageIndicator;
     private List<DrawingImage> mDrawingImages;
@@ -28,20 +33,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_context);
+        setContentView(R.layout.activity_main);
         initView();
     }
 
     private void initView() {
-        mViewHolder = new ViewHolder(this, findViewById(R.id.RltMain), this);
+        mViewHolder = new ViewHolder(this, findViewById(R.id.mDrawerLayout), this);
+        mDrawerLayout = mViewHolder.getView(R.id.mDrawerLayout);
         mViewPager = mViewHolder.getView(R.id.mViewPager);
+        mBroadside = mViewHolder.getView(R.id.mBroadside);
         mIconPageIndicator = mViewHolder.getView(R.id.mIconPageIndicator);
         mViewPager.addOnPageChangeListener(new PagerChangeListener());
+        mViewHolder.setOnClickListener(R.id.tvTitle);
     }
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()) {
+            case R.id.tvTitle:
+                mDrawerLayout.openDrawer(Gravity.RIGHT);
+                break;
+        }
     }
 
     @Override
