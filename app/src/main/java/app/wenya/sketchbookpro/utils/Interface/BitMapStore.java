@@ -12,7 +12,7 @@ import android.graphics.Bitmap;
  */
 
 public interface BitMapStore {
-    void saveBitMap(Activity mActivity, Bitmap mBitmap, String mPatch);
+    void saveBitMap(Activity mActivity, Bitmap mBitmap, String folder, String fileName);
 
-    Bitmap getBitMap(Activity mActivity, String mPatch);
+    String getBitMapPatch(Activity mActivity, String folder, String fileName);
 }

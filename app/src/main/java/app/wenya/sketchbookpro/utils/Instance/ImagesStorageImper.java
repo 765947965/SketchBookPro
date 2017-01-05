@@ -27,7 +27,7 @@ import app.wenya.sketchbookpro.model.DrawingImage;
 public class ImagesStorageImper implements ImagesStorage {
     @Override
     public List<DrawingImage> getAllDrawingImage(Activity mActivity, String fileName) {
-        String data = OperationUtils.getString(ImagesStorageImper.class.getSimpleName());
+        String data = OperationUtils.getString(ImagesStorageImper.class.getSimpleName() + fileName);
         if (TextUtils.isEmpty(data)) {
             return new ArrayList<>();
         }
@@ -43,6 +43,6 @@ public class ImagesStorageImper implements ImagesStorage {
             } catch (Exception e) {
             }
         }
-        OperationUtils.putString(ImagesStorageImper.class.getSimpleName(), jsonArray.toString());
+        OperationUtils.putString(ImagesStorageImper.class.getSimpleName() + fileName, jsonArray.toString());
     }
 }

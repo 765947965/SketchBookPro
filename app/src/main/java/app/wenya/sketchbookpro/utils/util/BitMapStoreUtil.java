@@ -33,11 +33,11 @@ public class BitMapStoreUtil {
         return mBitMapStoreUtil;
     }
 
-    public void saveBitMap(Activity mActivity, Bitmap mBitmap, String mPatch) {
-        mBitMapStore.saveBitMap(mActivity, mBitmap, mPatch);
+    public void saveBitMap(Activity mActivity, Bitmap mBitmap, String folder, String fileName) {
+        mBitMapStore.saveBitMap(mActivity, mBitmap, folder, fileName);
     }
 
-    public Bitmap getBitMap(Activity mActivity, String mPatch) {
-        return mBitMapStore.getBitMap(mActivity, mPatch);
+    public String getBitMap(Activity mActivity, String folder, String fileName) {
+        return mBitMapStore.getBitMapPatch(mActivity, folder, fileName);
     }
 }
