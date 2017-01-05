@@ -60,7 +60,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 mDrawerLayout.openDrawer(Gravity.RIGHT);
                 break;
             case R.id.fab:
-                startActivityForResult(new Intent(MainActivity.this, SketchBookProActivity.class).putExtra(Constant.ARG1, new DrawingImage("默认", String.valueOf(System.currentTimeMillis()) + ".jpg")), Constant.SKETCHBOOKPRO);
+                startActivityForResult(new Intent(MainActivity.this, SketchBookProActivity.class).putExtra(Constant.ARG1, new DrawingImage("默认", String.valueOf(System.currentTimeMillis()) + ".png")), Constant.SKETCHBOOKPRO);
                 break;
         }
     }

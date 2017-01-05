@@ -38,6 +38,11 @@ public class BitMapStoreImper implements BitMapStore {
 
     @Override
     public String getBitMapPatch(Activity mActivity, String folder, String fileName) {
-        return Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + mActivity.getResources().getString(R.string.app_name) + "/" + folder + "/" + fileName;
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + mActivity.getResources().getString(R.string.app_name) + "/" + folder + "/" + fileName;
+        File fl = new File(path);
+        if (fl.exists()){
+            return path;
+        }
+        return "";
     }
 }

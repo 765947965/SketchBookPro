@@ -2,11 +2,14 @@ package app.wenya.sketchbookpro.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -19,6 +22,7 @@ import app.wenya.sketchbookpro.model.DrawingImage;
 import app.wenya.sketchbookpro.ui.base.BaseActivity;
 import app.wenya.sketchbookpro.ui.base.ViewHolder;
 import app.wenya.sketchbookpro.utils.util.BitMapStoreUtil;
+import app.wenya.sketchbookpro.utils.util.ImageLoadUtil;
 
 
 /**
@@ -35,6 +39,7 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
     private DrawingImage mDrawingImage;
     private Intent intent;
     private MaterialDialog progressDialog;
+    private String imagePath;//原始图片地址
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,6 +67,13 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
     protected void loadData() {
         intent = getIntent();
         mDrawingImage = (DrawingImage) intent.getSerializableExtra(Constant.ARG1);
+        mViewHolder.setText(R.id.tvTitle, mDrawingImage.getName());
+        imagePath = BitMapStoreUtil.instance().getBitMap(this, mDrawingImage.getFolder(), mDrawingImage.getName());
+        if (!TextUtils.isEmpty(imagePath)) {
+            ImageLoadUtil.instance().loadImageAutoSize(this, imagePath, (ImageView) mViewHolder.getView(R.id.ivBackImage));
+        } else {
+            mFreeDrawView.setBackgroundColor(Color.WHITE);
+        }
     }
 
     @Override
@@ -73,26 +85,28 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
     public void onDrawCreated(Bitmap draw) {
         BitMapStoreUtil.instance().saveBitMap(this, draw, mDrawingImage.getFolder(), mDrawingImage.getName());
         draw.recycle();
-        finish();
+        finish(true);
     }
 
     @Override
     public void onDrawCreationError() {
-        finish();
+        finish(false);
     }
 
-    @Override
-    public void finish() {
+    /**
+     * @param resultData 是否返回结果
+     */
+    public void finish(boolean resultData) {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
-        intent.putExtra(Constant.ARG1, mDrawingImage);
+        intent.putExtra(Constant.ARG1, resultData ? mDrawingImage : null);
         setResult(RESULT_OK, intent);
-        super.finish();
+        finish();
     }
 
     private void saveBitMap() {
-        progressDialog = new MaterialDialog.Builder(this).content("保存图片中").progress(true, 0).show();
+        progressDialog = new MaterialDialog.Builder(this).content("保存图片中...").progress(true, 0).show();
         mFreeDrawView.getDrawScreenshot(this);
     }
 
@@ -111,12 +125,12 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
                     .onNegative(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            finish();
+                            finish(false);
                         }
                     })
                     .show();
         } else {
-            finish();
+            finish(false);
         }
     }
 }
