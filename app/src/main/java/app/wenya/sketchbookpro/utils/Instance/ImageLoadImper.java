@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import app.wenya.sketchbookpro.utils.Interface.ImageLoad;
 
@@ -19,32 +20,32 @@ import app.wenya.sketchbookpro.utils.Interface.ImageLoad;
 public class ImageLoadImper implements ImageLoad {
     @Override
     public void loadImageAutoSize(Activity mActivity, String path, ImageView mImageView) {
-        Glide.with(mActivity).load(path).into(mImageView);
+        Glide.with(mActivity).load(path).diskCacheStrategy(DiskCacheStrategy.NONE).into(mImageView);
     }
 
     @Override
     public void loadImageAutoSize(Activity mActivity, Uri uri, ImageView mImageView) {
-        Glide.with(mActivity).load(uri).into(mImageView);
+        Glide.with(mActivity).load(uri).diskCacheStrategy(DiskCacheStrategy.NONE).into(mImageView);
     }
 
     @Override
     public void loadImageAutoSize(Activity mActivity, int resId, ImageView mImageView) {
-        Glide.with(mActivity).load(resId).into(mImageView);
+        Glide.with(mActivity).load(resId).diskCacheStrategy(DiskCacheStrategy.NONE).into(mImageView);
     }
 
     @Override
     public void loadImageCenterCrop(Activity mActivity, String path, ImageView mImageView) {
-        Glide.with(mActivity).load(path).centerCrop().into(mImageView);
+        Glide.with(mActivity).load(path).centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE).into(mImageView);
     }
 
     @Override
     public void loadImageCenterCrop(Activity mActivity, Uri uri, ImageView mImageView) {
-        Glide.with(mActivity).load(uri).centerCrop().into(mImageView);
+        Glide.with(mActivity).load(uri).centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE).into(mImageView);
     }
 
     @Override
     public void loadImageCenterCrop(Activity mActivity, int resId, ImageView mImageView) {
-        Glide.with(mActivity).load(resId).centerCrop().into(mImageView);
+        Glide.with(mActivity).load(resId).centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE).into(mImageView);
     }
 
     @Override

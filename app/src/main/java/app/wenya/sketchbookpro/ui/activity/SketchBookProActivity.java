@@ -2,6 +2,8 @@ package app.wenya.sketchbookpro.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.rm.freedraw.FreeDrawView;
+
 
 import app.wenya.sketchbookpro.R;
 import app.wenya.sketchbookpro.base.Constant;
@@ -83,9 +86,25 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onDrawCreated(Bitmap draw) {
-        BitMapStoreUtil.instance().saveBitMap(this, draw, mDrawingImage.getFolder(), mDrawingImage.getName());
-        draw.recycle();
-        finish(true);
+        if (draw != null) {
+            if (!TextUtils.isEmpty(imagePath)) {
+                Bitmap bitmapOld = BitmapFactory.decodeFile(imagePath);
+                Bitmap bitmapNew = Bitmap.createBitmap(bitmapOld.getWidth(), bitmapOld.getHeight(), bitmapOld.getConfig());
+                Canvas canvas = new Canvas(bitmapNew);
+                canvas.drawBitmap(bitmapOld, 0, 0, null);
+                canvas.drawBitmap(draw, 0, 0, null);
+                bitmapOld.recycle();
+                draw.recycle();
+                draw = bitmapNew;
+                mDrawingImage.setName(String.valueOf(System.currentTimeMillis()) + ".jpg");
+            }
+            BitMapStoreUtil.instance().saveBitMap(this, draw, mDrawingImage.getFolder(), mDrawingImage.getName());
+            draw.recycle();
+            finish(true);
+        } else {
+            finish(false);
+        }
+
     }
 
     @Override
@@ -112,23 +131,7 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
 
     private void willSaveBitMap() {
         if (mFreeDrawView.getUndoCount() > 0) {
-            new MaterialDialog.Builder(this)
-                    .content("是否保存图片")
-                    .positiveText("确定")
-                    .negativeText("取消")
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            saveBitMap();
-                        }
-                    })
-                    .onNegative(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            finish(false);
-                        }
-                    })
-                    .show();
+            saveBitMap();
         } else {
             finish(false);
         }

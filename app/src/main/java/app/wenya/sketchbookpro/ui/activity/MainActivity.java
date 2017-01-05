@@ -3,6 +3,7 @@ package app.wenya.sketchbookpro.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
@@ -10,6 +11,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,6 +38,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ViewPager mViewPager;
     private IconPageIndicator mIconPageIndicator;
     private List<DrawingImage> mDrawingImages;
+    private String folderName = "默认";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +65,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 mDrawerLayout.openDrawer(Gravity.RIGHT);
                 break;
             case R.id.fab:
-                startActivityForResult(new Intent(MainActivity.this, SketchBookProActivity.class).putExtra(Constant.ARG1, new DrawingImage("默认", String.valueOf(System.currentTimeMillis()) + ".png")), Constant.SKETCHBOOKPRO);
+                startActivityForResult(new Intent(MainActivity.this, SketchBookProActivity.class).putExtra(Constant.ARG1, new DrawingImage(folderName, String.valueOf(System.currentTimeMillis()) + ".jpg")), Constant.SKETCHBOOKPRO);
                 break;
         }
     }
@@ -71,12 +76,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             mDrawingImages = new ArrayList<>();
         }
         mDrawingImages.clear();
-        mDrawingImages.addAll(ImageStorageUtil.instance().getAllDrawingImage(this, "默认"));
+        mDrawingImages.addAll(ImageStorageUtil.instance().getAllDrawingImage(this, folderName));
         setAdapter();
     }
 
     private void setAdapter() {
-        if (mDrawingImages.size() == 0) return;
+        if (mDrawingImages.size() == 0) {
+            mViewPager.setVisibility(View.GONE);
+            mIconPageIndicator.setVisibility(View.GONE);
+            return;
+        }
+        mViewPager.setVisibility(View.VISIBLE);
+        mIconPageIndicator.setVisibility(View.VISIBLE);
         mViewPager.setAdapter(new LoopBaseAdapter<DrawingImage>(this, mDrawingImages, R.layout.activity_adapter_item) {
             @Override
             public void createView(ViewHolder mViewHolder, DrawingImage item, List<DrawingImage> mDatas, int position) {
@@ -86,6 +97,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onClickItem(View view, DrawingImage item, List<DrawingImage> mDatas, int position) {
                 startActivityForResult(new Intent(MainActivity.this, SketchBookProActivity.class).putExtra(Constant.ARG1, item), Constant.SKETCHBOOKPRO);
+            }
+
+            @Override
+            public void onLongClickItem(View view, final DrawingImage item, List<DrawingImage> mDatas, int position) {
+                new MaterialDialog.Builder(MainActivity.this).content("是否删除该图片").positiveText("确定").negativeText("取消")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                new File(BitMapStoreUtil.instance().getBitMap(MainActivity.this, item.getFolder(), item.getName())).delete();
+                                mDrawingImages.remove(item);
+                                ImageStorageUtil.instance().setAllDrawingImage(MainActivity.this, mDrawingImages, folderName);
+                                setAdapter();
+                            }
+                        }).show();
             }
         });
         mIconPageIndicator.setPadding(10, 0, 10, 0);
@@ -108,9 +133,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 if (!isHas) {
                     mDrawingImages.add(newItem);
-                    ImageStorageUtil.instance().setAllDrawingImage(this, mDrawingImages, "默认");
+                    ImageStorageUtil.instance().setAllDrawingImage(this, mDrawingImages, folderName);
                 }
                 setAdapter();
+                if (!isHas) {
+                    mViewPager.setCurrentItem(mDrawingImages.size() - 1);
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

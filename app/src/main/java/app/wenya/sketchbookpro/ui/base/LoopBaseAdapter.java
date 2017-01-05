@@ -13,7 +13,7 @@ import java.util.List;
 import app.wenya.sketchbookpro.R;
 import app.wenya.sketchbookpro.ui.view.looppager.IconPagerAdapter;
 
-public abstract class LoopBaseAdapter<T> extends PagerAdapter implements IconPagerAdapter, View.OnClickListener {
+public abstract class LoopBaseAdapter<T> extends PagerAdapter implements IconPagerAdapter, View.OnClickListener, View.OnLongClickListener {
     private LayoutInflater mInflater;
     private List<T> mDatas;
     private Activity mActivity;
@@ -49,6 +49,7 @@ public abstract class LoopBaseAdapter<T> extends PagerAdapter implements IconPag
         container.addView(view, 0);
         view.setTag(position);
         view.setOnClickListener(this);
+        view.setOnLongClickListener(this);
         return view;
     }
 
@@ -56,6 +57,13 @@ public abstract class LoopBaseAdapter<T> extends PagerAdapter implements IconPag
     public void onClick(View view) {
         int position = (int) view.getTag();
         onClickItem(view, getItem(position), mDatas, position);
+    }
+
+    @Override
+    public boolean onLongClick(View view){
+        int position = (int) view.getTag();
+        onLongClickItem(view, getItem(position), mDatas, position);
+        return true;
     }
 
     public T getItem(int position) {
@@ -90,4 +98,5 @@ public abstract class LoopBaseAdapter<T> extends PagerAdapter implements IconPag
     public abstract void createView(ViewHolder mViewHolder, T item, List<T> mDatas, int position);
 
     public abstract void onClickItem(View view, T item, List<T> mDatas, int position);
+    public abstract void onLongClickItem(View view, T item, List<T> mDatas, int position);
 }
