@@ -34,17 +34,14 @@
             android:id="@+id/mViewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/ui_margin"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="@dimen/ui_margin" />
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
 
         <app.wenya.sketchbookpro.ui.view.looppager.IconPageIndicator
             android:id="@+id/mIconPageIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
-            android:layout_marginBottom="6dp"
             android:layout_marginRight="14dp" />
     </FrameLayout>
 
