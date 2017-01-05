@@ -103,8 +103,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 for (DrawingImage Item : mDrawingImages) {
                     if (Item.getName().equals(newItem.getName())) {
                         isHas = true;
+                        break;
                     }
-                    break;
                 }
                 if (!isHas) {
                     mDrawingImages.add(newItem);
