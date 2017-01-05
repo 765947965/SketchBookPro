@@ -71,6 +71,8 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
         imagePath = BitMapStoreUtil.instance().getBitMap(this, mDrawingImage.getFolder(), mDrawingImage.getName());
         if (!TextUtils.isEmpty(imagePath)) {
             ImageLoadUtil.instance().loadImageAutoSize(this, imagePath, (ImageView) mViewHolder.getView(R.id.ivBackImage));
+        } else {
+            mFreeDrawView.setBackgroundColor(Color.WHITE);
         }
     }
 
