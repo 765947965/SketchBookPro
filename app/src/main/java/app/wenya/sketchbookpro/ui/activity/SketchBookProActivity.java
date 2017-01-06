@@ -5,6 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Xfermode;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
@@ -20,6 +24,7 @@ import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.rm.freedraw.FreeDrawView;
 
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,6 +90,9 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
                 switch (index) {
                     case 1:
                         checkColor();
+                        break;
+                    case 2:
+                        setEraserPaint();
                         break;
                 }
             }
@@ -198,5 +206,18 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
         mFreeDrawView.setPaintColor(selectedColor);
+    }
+
+    private void setEraserPaint() {
+//        try {
+//            Field field = FreeDrawView.class.getDeclaredField("mCurrentPaint");
+//            field.setAccessible(true);
+//            Paint paint = (Paint) field.get(mFreeDrawView);
+//            Xfermode xFermode = new PorterDuffXfermode(mode);
+//            paint.setXfermode(xFermode);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        mFreeDrawView.setPaintColor(Color.WHITE);
     }
 }
