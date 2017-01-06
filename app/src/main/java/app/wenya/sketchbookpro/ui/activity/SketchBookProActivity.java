@@ -94,6 +94,8 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
                     case 2:
                         setEraserPaint();
                         break;
+                    case 3:
+                        break;
                 }
             }
 
