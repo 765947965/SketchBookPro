@@ -13,7 +13,6 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 
 import com.afollestad.materialdialogs.MaterialDialog;
