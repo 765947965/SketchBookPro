@@ -233,10 +233,10 @@
 
  # ProGuard configurations for Bugtags
  -keepattributes LineNumberTable,SourceFile
- -keep class com.bugtags.library.** {*;}
+ -keep class com.bugtags.app.wenya.sketchbookpro.ui.view.library.** {*;}
  -dontwarn org.apache.http.**
  -dontwarn android.net.http.AndroidHttpClient
- -dontwarn com.bugtags.library.**
+ -dontwarn com.bugtags.app.wenya.sketchbookpro.ui.view.library.**
  # End Bugtags
 
  # 小米推送

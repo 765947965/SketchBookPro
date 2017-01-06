@@ -10,20 +10,32 @@
         android:id="@+id/ildTitle"
         layout="@layout/sketch_book_pro_title" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+    <app.wenya.sketchbookpro.ui.view.library.SectorMenuButton
+        android:id="@+id/sector_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/ui_margin"
-        app:srcCompat="@drawable/cool" />
+        app:aebAnimDurationMillis="175"
+        app:aebBlurBackground="true"
+        app:aebBlurRadius="10"
+        app:aebButtonElevation="0dp"
+        app:aebButtonGapDp="60dp"
+        app:aebEndAngleDegree="180"
+        app:aebIsSelectionMode="false"
+        app:aebMainButtonRotateAnimDurationMillis="300"
+        app:aebMainButtonRotateDegree="0"
+        app:aebMainButtonSizeDp="50dp"
+        app:aebRippleEffect="true"
+        app:aebStartAngleDegree="90"
+        app:aebSubButtonSizeDp="40dp" />
 
     <android.support.v7.widget.CardView
         style="@style/CardViewTheme"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/fab"
+        android:layout_above="@id/sector_menu"
         android:layout_below="@id/ildTitle"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">

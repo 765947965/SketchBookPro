@@ -6,16 +6,23 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.rm.freedraw.FreeDrawView;
 
+
+import java.util.ArrayList;
+import java.util.List;
 
 import app.wenya.sketchbookpro.R;
 import app.wenya.sketchbookpro.base.Constant;
@@ -24,6 +31,9 @@ import app.wenya.sketchbookpro.ui.base.BaseActivity;
 import app.wenya.sketchbookpro.ui.base.ViewHolder;
 import app.wenya.sketchbookpro.utils.util.BitMapStoreUtil;
 import app.wenya.sketchbookpro.utils.util.ImageLoadUtil;
+import app.wenya.sketchbookpro.ui.view.library.ButtonData;
+import app.wenya.sketchbookpro.ui.view.library.ButtonEventListener;
+import app.wenya.sketchbookpro.ui.view.library.SectorMenuButton;
 
 
 /**
@@ -34,7 +44,7 @@ import app.wenya.sketchbookpro.utils.util.ImageLoadUtil;
  * @date: 2017/1/4 9:59
  */
 
-public class SketchBookProActivity extends BaseActivity implements View.OnClickListener, FreeDrawView.DrawCreatorListener {
+public class SketchBookProActivity extends BaseActivity implements View.OnClickListener, FreeDrawView.DrawCreatorListener, ColorChooserDialog.ColorCallback {
     private ViewHolder mViewHolder;
     private FreeDrawView mFreeDrawView;
     private DrawingImage mDrawingImage;
@@ -52,6 +62,57 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
     private void initView() {
         mViewHolder = new ViewHolder(this, findViewById(R.id.RltMain), this);
         mFreeDrawView = mViewHolder.getView(R.id.mFreeDrawView);
+        initSectorMenuButton();
+    }
+
+    private void initSectorMenuButton() {
+        SectorMenuButton sectorMenuButton = (SectorMenuButton) findViewById(R.id.sector_menu);
+        final List<ButtonData> buttonDatas = new ArrayList<>();
+        int[] drawable = {R.drawable.cool, R.drawable.mark,
+                R.drawable.search, R.drawable.copy, R.drawable.heart};
+        for (int i = 0; i < drawable.length; i++) {
+            ButtonData buttonData = ButtonData.buildIconButton(this, drawable[i], 0);
+            buttonData.setBackgroundColorId(this, R.color.colorAccent);
+            buttonDatas.add(buttonData);
+        }
+        sectorMenuButton.setButtonDatas(buttonDatas);
+        setListener(sectorMenuButton);
+    }
+
+    private void setListener(SectorMenuButton button) {
+        button.setButtonEventListener(new ButtonEventListener() {
+            @Override
+            public void onButtonClicked(int index) {
+                switch (index) {
+                    case 1:
+                        checkColor();
+                        break;
+                }
+            }
+
+            @Override
+            public void onExpand() {
+            }
+
+            @Override
+            public void onCollapse() {
+            }
+        });
+    }
+
+    private void checkColor() {
+        // Pass AppCompatActivity which implements ColorCallback, along with the title of the dialog
+        new ColorChooserDialog.Builder(this, R.string.color_palette)
+                .titleSub(R.string.color_palette)  // title of dialog when viewing shades of a color
+//                .accentMode(false)  // when true, will display accent palette instead of primary palette
+                .doneButton(R.string.sure)
+                .cancelButton(R.string.cancel)
+                .backButton(R.string.back)
+                .customButton(R.string.custom)
+                .presetsButton(R.string.presets)
+//                .preselect(accent ? accentPreselect : primaryPreselect)  // optionally preselects a color
+                .dynamicButtonColor(true)  // defaults to true, false will disable changing action buttons' color to currently selected color
+                .show();
     }
 
 
@@ -133,5 +194,10 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
         } else {
             finish(false);
         }
+    }
+
+    @Override
+    public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
+        mFreeDrawView.setPaintColor(selectedColor);
     }
 }
