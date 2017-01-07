@@ -65,21 +65,50 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <app.wenya.sketchbookpro.ui.view.MyBubbleSeekBar
-            android:id="@+id/seekBarWidth"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="16dp"
-            app:bsb_max="20"
-            app:bsb_progress="4"
-            app:bsb_track_size="6dp" />
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <app.wenya.sketchbookpro.ui.view.MyBubbleSeekBar
-            android:id="@+id/seekBarAlpha"
+            <TextView
+                style="@style/text_context"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="画笔粗细:  " />
+
+            <app.wenya.sketchbookpro.ui.view.MyBubbleSeekBar
+                android:id="@+id/seekBarWidth"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                app:bsb_max="40"
+                app:bsb_progress="4"
+                app:bsb_track_color="@color/bsb_track_color"
+                app:bsb_track_size="6dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="16dp"
-            app:bsb_max="255"
-            app:bsb_progress="255"
-            app:bsb_track_size="6dp" />
-        >
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text_context"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="颜色色值:  " />
+
+            <app.wenya.sketchbookpro.ui.view.MyBubbleSeekBar
+                android:id="@+id/seekBarAlpha"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                app:bsb_max="255"
+                app:bsb_progress="255"
+                app:bsb_track_color="@color/bsb_track_color"
+                app:bsb_track_size="6dp" />
+            >
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

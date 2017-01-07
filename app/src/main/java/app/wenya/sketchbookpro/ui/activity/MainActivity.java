@@ -54,6 +54,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mBroadside = mViewHolder.getView(R.id.mBroadside);
         mIconPageIndicator = mViewHolder.getView(R.id.mIconPageIndicator);
         mViewPager.addOnPageChangeListener(new PagerChangeListener());
+        mViewPager.setOffscreenPageLimit(4);
         mViewHolder.setOnClickListener(R.id.tvTitle);
         mViewHolder.setOnClickListener(R.id.fab);
     }
@@ -91,7 +92,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mViewPager.setAdapter(new LoopBaseAdapter<DrawingImage>(this, mDrawingImages, R.layout.activity_adapter_item) {
             @Override
             public void createView(ViewHolder mViewHolder, DrawingImage item, List<DrawingImage> mDatas, int position) {
-                ImageLoadUtil.instance().loadImageAutoSize(MainActivity.this, BitMapStoreUtil.instance().getBitMap(MainActivity.this, item.getFolder(), item.getName()), (ImageView) mViewHolder.getView(R.id.mSketchImageView));
+                ImageLoadUtil.instance().loadImageCenterCrop(MainActivity.this, BitMapStoreUtil.instance().getBitMap(MainActivity.this, item.getFolder(), item.getName()), (ImageView) mViewHolder.getView(R.id.mSketchImageView));
             }
 
             @Override
