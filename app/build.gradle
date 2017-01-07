@@ -52,4 +52,6 @@ dependencies {
     compile 'com.afollestad.material-dialogs:core:0.9.2.1'
     // 颜色选择等弹窗
     compile 'com.afollestad.material-dialogs:commons:0.9.2.1'
+    // https://github.com/woxingxiao/BubbleSeekBar sekbar
+    compile 'com.github.woxingxiao:BubbleSeekBar:v1.6'
 }

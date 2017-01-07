@@ -32,6 +32,7 @@
         app:aebSubButtonSizeDp="40dp" />
 
     <android.support.v7.widget.CardView
+        android:id="@+id/mCardView"
         style="@style/CardViewTheme"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -54,4 +55,31 @@
             app:paintWidth="4dp"
             app:resizeBehaviour="crop" />
     </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/mCardView"
+        android:layout_marginLeft="20dp"
+        android:layout_toLeftOf="@id/sector_menu"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <app.wenya.sketchbookpro.ui.view.MyBubbleSeekBar
+            android:id="@+id/seekBarWidth"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            app:bsb_max="20"
+            app:bsb_progress="4"
+            app:bsb_track_size="6dp" />
+
+        <app.wenya.sketchbookpro.ui.view.MyBubbleSeekBar
+            android:id="@+id/seekBarAlpha"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            app:bsb_max="255"
+            app:bsb_progress="255"
+            app:bsb_track_size="6dp" />
+        >
+    </LinearLayout>
 </RelativeLayout>

@@ -33,6 +33,7 @@ import app.wenya.sketchbookpro.base.Constant;
 import app.wenya.sketchbookpro.model.DrawingImage;
 import app.wenya.sketchbookpro.ui.base.BaseActivity;
 import app.wenya.sketchbookpro.ui.base.ViewHolder;
+import app.wenya.sketchbookpro.ui.view.MyBubbleSeekBar;
 import app.wenya.sketchbookpro.utils.util.BitMapStoreUtil;
 import app.wenya.sketchbookpro.utils.util.ImageLoadUtil;
 import app.wenya.sketchbookpro.ui.view.library.ButtonData;
@@ -48,13 +49,14 @@ import app.wenya.sketchbookpro.ui.view.library.SectorMenuButton;
  * @date: 2017/1/4 9:59
  */
 
-public class SketchBookProActivity extends BaseActivity implements View.OnClickListener, FreeDrawView.DrawCreatorListener, ColorChooserDialog.ColorCallback {
+public class SketchBookProActivity extends BaseActivity implements View.OnClickListener, FreeDrawView.DrawCreatorListener, ColorChooserDialog.ColorCallback, MyBubbleSeekBar.MySelProgressChangeListnener {
     private ViewHolder mViewHolder;
     private FreeDrawView mFreeDrawView;
     private DrawingImage mDrawingImage;
     private Intent intent;
     private MaterialDialog progressDialog;
     private String imagePath;//原始图片地址
+    private MyBubbleSeekBar seekBarWidth, seekBarAlpha;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,6 +69,10 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
         mViewHolder = new ViewHolder(this, findViewById(R.id.RltMain), this);
         mFreeDrawView = mViewHolder.getView(R.id.mFreeDrawView);
         initSectorMenuButton();
+        seekBarWidth = mViewHolder.getView(R.id.seekBarWidth);
+        seekBarAlpha = mViewHolder.getView(R.id.seekBarAlpha);
+        seekBarWidth.setmMySelProgressChangeListnener(this);
+        seekBarAlpha.setmMySelProgressChangeListnener(this);
     }
 
     private void initSectorMenuButton() {
@@ -92,7 +98,6 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
                         checkColor();
                         break;
                     case 2:
-                        setEraserPaint();
                         break;
                     case 3:
                         break;
@@ -208,9 +213,13 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
         mFreeDrawView.setPaintColor(selectedColor);
+        seekBarWidth.setSecondTrackColor(Color.argb(Color.alpha(seekBarWidth.getSecondTrackColor()), Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor)));
+        seekBarAlpha.setSecondTrackColor(Color.argb(Color.alpha(seekBarAlpha.getSecondTrackColor()), Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor)));
+        seekBarWidth.setThumbColor(seekBarWidth.getSecondTrackColor());
+        seekBarAlpha.setThumbColor(seekBarAlpha.getSecondTrackColor());
     }
 
-    private void setEraserPaint() {
+//    private void setEraserPaint(PorterDuff.Mode mode) {
 //        try {
 //            Field field = FreeDrawView.class.getDeclaredField("mCurrentPaint");
 //            field.setAccessible(true);
@@ -220,6 +229,20 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-        mFreeDrawView.setPaintColor(Color.WHITE);
+//    }
+
+    @Override
+    public void onProgressChanged(View view, int progress) {
+        switch (view.getId()) {
+            case R.id.seekBarWidth:
+                mFreeDrawView.setPaintWidthDp(progress);
+                break;
+            case R.id.seekBarAlpha:
+                mFreeDrawView.setPaintAlpha(progress);
+                seekBarAlpha.setTrackColor(Color.argb(progress, Color.red(seekBarAlpha.getTrackColor()), Color.green(seekBarAlpha.getTrackColor()), Color.blue(seekBarAlpha.getTrackColor())));
+                seekBarAlpha.setSecondTrackColor(Color.argb(progress, Color.red(seekBarAlpha.getSecondTrackColor()), Color.green(seekBarAlpha.getSecondTrackColor()), Color.blue(seekBarAlpha.getSecondTrackColor())));
+                seekBarAlpha.setThumbColor(seekBarAlpha.getSecondTrackColor());
+                break;
+        }
     }
 }
