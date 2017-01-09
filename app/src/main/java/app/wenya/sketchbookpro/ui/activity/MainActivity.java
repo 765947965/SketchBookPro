@@ -3,14 +3,17 @@ package app.wenya.sketchbookpro.ui.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -21,6 +24,9 @@ import java.util.List;
 
 import app.wenya.sketchbookpro.R;
 import app.wenya.sketchbookpro.base.Constant;
+import app.wenya.sketchbookpro.db.OperationUtils;
+import app.wenya.sketchbookpro.db.SharedPreferencesConstants;
+import app.wenya.sketchbookpro.ui.base.MyBaseAdapter;
 import app.wenya.sketchbookpro.utils.Instance.MyOnPageChangeListener;
 import app.wenya.sketchbookpro.utils.util.BitMapStoreUtil;
 import app.wenya.sketchbookpro.utils.util.ImageLoadUtil;
@@ -36,9 +42,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private DrawerLayout mDrawerLayout;
     private LinearLayout mBroadside;
     private ViewPager mViewPager;
+    private ListView mListView;
     private IconPageIndicator mIconPageIndicator;
     private List<DrawingImage> mDrawingImages;
-    private String folderName = "默认";
+    private String folderName = OperationUtils.getString(SharedPreferencesConstants.MAINACTIVITY_FOLDERNAME);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,18 +60,39 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mDrawerLayout = mViewHolder.getView(R.id.mDrawerLayout);
         mViewPager = mViewHolder.getView(R.id.mViewPager);
         mBroadside = mViewHolder.getView(R.id.mBroadside);
+        mListView = mViewHolder.getView(R.id.mListView);
         mIconPageIndicator = mViewHolder.getView(R.id.mIconPageIndicator);
         mViewPager.addOnPageChangeListener(new PagerChangeListener());
         mViewPager.setOffscreenPageLimit(4);
         mViewHolder.setOnClickListener(R.id.tvTitle);
         mViewHolder.setOnClickListener(R.id.fab);
+        List<String> data = new ArrayList<>();
+        data.add("默认");
+        data.add("素描");
+        data.add("水彩");
+        data.add("蜡笔");
+        mListView.setAdapter(new MyBaseAdapter<String>(mListView, MainActivity.this, data, R.layout.activity_main_broadside_item) {
+            @Override
+            protected void convert(ViewHolder holder, String item, List<String> list, int position) {
+                holder.setText(R.id.tvItemTitle, item);
+            }
+
+            @Override
+            protected void MyonItemClick(AdapterView<?> parent, View view, String item, List<String> list, int position, long id) {
+                OperationUtils.putString(SharedPreferencesConstants.MAINACTIVITY_FOLDERNAME, item);
+                folderName = item;
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                loadData();
+            }
+        });
+
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tvTitle:
-                mDrawerLayout.openDrawer(Gravity.RIGHT);
+                mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
             case R.id.fab:
                 startActivityForResult(new Intent(MainActivity.this, SketchBookProActivity.class).putExtra(Constant.ARG1, new DrawingImage(folderName, String.valueOf(System.currentTimeMillis()) + ".jpg")), Constant.SKETCHBOOKPRO);
@@ -74,6 +102,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void loadData() {
+        if (TextUtils.isEmpty(folderName)) folderName = "默认";
         if (mDrawingImages == null) {
             mDrawingImages = new ArrayList<>();
         }
