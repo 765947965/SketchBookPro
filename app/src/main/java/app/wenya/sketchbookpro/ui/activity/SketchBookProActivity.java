@@ -1,5 +1,6 @@
 package app.wenya.sketchbookpro.ui.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -63,6 +64,7 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sketch_book_pro);
         initView();
+        setPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
     }
 
     private void initView() {
