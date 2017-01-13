@@ -6,10 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Xfermode;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
@@ -25,7 +21,6 @@ import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.rm.freedraw.FreeDrawView;
 
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,7 +96,7 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
                         checkColor();
                         break;
                     case 2:
-                        mFreeDrawView.setBrush();
+                        mFreeDrawView.setStarBrush(!mFreeDrawView.isStarBrush());
                         break;
                     case 3:
                         break;
