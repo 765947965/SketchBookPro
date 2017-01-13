@@ -46,12 +46,12 @@ public class MyFreeDrawView extends FreeDrawView {
             Paint paint = (Paint) fieldPaint.get(this);
 //            paint.setPathEffect(new DiscretePathEffect(9f, 22f));
             Path path = new Path();
-            path.moveTo(0,-15);
-            path.lineTo(30,-15);
-            path.lineTo(0, -30);
-            path.lineTo(15, 0);
-            path.lineTo(30, -30);
-            path.lineTo(0,-15);
+            path.moveTo(-30, 0);
+            path.lineTo(30, 0);
+            path.lineTo(-18, 35);
+            path.lineTo(0, -22);
+            path.lineTo(18, 35);
+            path.lineTo(-30, 0);
             path.close();
             paint.setPathEffect(new PathDashPathEffect(path, 50f, 50f, PathDashPathEffect.Style.MORPH));
         } catch (Exception e) {
