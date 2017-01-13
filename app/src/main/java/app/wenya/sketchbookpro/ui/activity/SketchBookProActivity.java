@@ -35,6 +35,7 @@ import app.wenya.sketchbookpro.model.DrawingImage;
 import app.wenya.sketchbookpro.ui.base.BaseActivity;
 import app.wenya.sketchbookpro.ui.base.ViewHolder;
 import app.wenya.sketchbookpro.ui.view.MyBubbleSeekBar;
+import app.wenya.sketchbookpro.ui.view.MyFreeDrawView;
 import app.wenya.sketchbookpro.utils.util.BitMapStoreUtil;
 import app.wenya.sketchbookpro.utils.util.ImageLoadUtil;
 import app.wenya.sketchbookpro.ui.view.library.ButtonData;
@@ -52,7 +53,7 @@ import app.wenya.sketchbookpro.ui.view.library.SectorMenuButton;
 
 public class SketchBookProActivity extends BaseActivity implements View.OnClickListener, FreeDrawView.DrawCreatorListener, ColorChooserDialog.ColorCallback, MyBubbleSeekBar.MySelProgressChangeListnener {
     private ViewHolder mViewHolder;
-    private FreeDrawView mFreeDrawView;
+    private MyFreeDrawView mFreeDrawView;
     private DrawingImage mDrawingImage;
     private Intent intent;
     private MaterialDialog progressDialog;
@@ -100,6 +101,7 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
                         checkColor();
                         break;
                     case 2:
+                        mFreeDrawView.setBrush();
                         break;
                     case 3:
                         break;
