@@ -53,7 +53,7 @@ public class MyFreeDrawView extends FreeDrawView {
             path.lineTo(18, 35);
             path.lineTo(-30, 0);
             path.close();
-            paint.setPathEffect(new PathDashPathEffect(path, 50f, 50f, PathDashPathEffect.Style.MORPH));
+            paint.setPathEffect(new PathDashPathEffect(path, 80f, 80f, PathDashPathEffect.Style.MORPH));
         } catch (Exception e) {
             e.printStackTrace();
         }
