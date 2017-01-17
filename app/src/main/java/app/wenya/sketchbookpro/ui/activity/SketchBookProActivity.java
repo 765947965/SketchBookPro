@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.rm.freedraw.FreeDrawView;
+import com.rm.freedraw.PathRedoUndoCountChangeListener;
 
 
 import java.util.ArrayList;
@@ -46,10 +47,11 @@ import app.wenya.sketchbookpro.ui.view.library.SectorMenuButton;
  * @date: 2017/1/4 9:59
  */
 
-public class SketchBookProActivity extends BaseActivity implements View.OnClickListener, FreeDrawView.DrawCreatorListener, ColorChooserDialog.ColorCallback, MyBubbleSeekBar.MySelProgressChangeListnener {
+public class SketchBookProActivity extends BaseActivity implements View.OnClickListener, FreeDrawView.DrawCreatorListener, ColorChooserDialog.ColorCallback, MyBubbleSeekBar.MySelProgressChangeListnener, PathRedoUndoCountChangeListener {
     private ViewHolder mViewHolder;
     private MyFreeDrawView mFreeDrawView;
     private DrawingImage mDrawingImage;
+    private ImageView ivBackImageLeft, ivBackImageRight;
     private Intent intent;
     private MaterialDialog progressDialog;
     private String imagePath;//原始图片地址
@@ -69,8 +71,11 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
         initSectorMenuButton();
         seekBarWidth = mViewHolder.getView(R.id.seekBarWidth);
         seekBarAlpha = mViewHolder.getView(R.id.seekBarAlpha);
+        ivBackImageLeft = mViewHolder.setOnClickListener(R.id.ivBackImageLeft);
+        ivBackImageRight = mViewHolder.setOnClickListener(R.id.ivBackImageRight);
         seekBarWidth.setmMySelProgressChangeListnener(this);
         seekBarAlpha.setmMySelProgressChangeListnener(this);
+        mFreeDrawView.setPathRedoUndoCountChangeListener(this);
     }
 
     private void initSectorMenuButton() {
@@ -153,7 +158,14 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()) {
+            case R.id.ivBackImageLeft:
+                mFreeDrawView.undoLast();
+                break;
+            case R.id.ivBackImageRight:
+                mFreeDrawView.redoLast();
+                break;
+        }
     }
 
     @Override
@@ -242,6 +254,24 @@ public class SketchBookProActivity extends BaseActivity implements View.OnClickL
                 seekBarAlpha.setSecondTrackColor(Color.argb(progress, Color.red(seekBarAlpha.getSecondTrackColor()), Color.green(seekBarAlpha.getSecondTrackColor()), Color.blue(seekBarAlpha.getSecondTrackColor())));
                 seekBarAlpha.setThumbColor(seekBarAlpha.getSecondTrackColor());
                 break;
+        }
+    }
+
+    @Override
+    public void onUndoCountChanged(int undoCount) {
+        if (undoCount > 0) {
+            ivBackImageLeft.setImageResource(R.drawable.pp_icon_reply);
+        } else {
+            ivBackImageLeft.setImageResource(R.drawable.pp_icon_reply_dis_enable);
+        }
+    }
+
+    @Override
+    public void onRedoCountChanged(int redoCount) {
+        if (redoCount > 0) {
+            ivBackImageRight.setImageResource(R.drawable.pp_icon_reply_right);
+        } else {
+            ivBackImageRight.setImageResource(R.drawable.pp_icon_reply_right_dis_enable);
         }
     }
 }
